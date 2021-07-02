@@ -16,5 +16,4 @@ If you want to use this app, you have to do several things:
 
 5 - enjoy
 
-
-Because of setup being too complicated, this app is not recommended for use if you don't know basic python. This will be turned into .exe file and have a GUI in future!
+Because of setup being too complicated, if you are not a basic python user you will struggle doing these steps probably, if you don't know how to do any of these steps please skip because app will not work. This will be turned into .exe file and have a GUI in future!
