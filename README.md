@@ -1,4 +1,5 @@
-# Taha's Mood Tracker App
+Taha's Mood Tracker App
+----
 
 Hello! This is a very simple project i'm working on: mood tracker app.
 
@@ -17,3 +18,8 @@ If you want to use this app, you have to do several things:
 5 - enjoy
 
 Because of setup being too complicated, if you are not a basic python user you will struggle doing these steps probably, if you don't know how to do any of these steps please skip because app will not work. This will be turned into .exe file and have a GUI in future!
+
+Contact me
+----
+[Discord server](NYnQNTE)
+Discord account: Taha#4216
