@@ -1,6 +1,7 @@
 # Taha's Mood Tracker App
 
-Hello! Welcome to one of my simplest project: mood tracker.
+Hello! This is a very simple project i'm working on: mood tracker app.
+
 This is a very basic app and not user-friendly for now.
 
 If you want to use this app, you have to do several things:
