@@ -1,0 +1,21 @@
+{
+    "example_user": {
+        "setup_status": 0,
+        "settings": {
+            "discord_presence": {
+                "enabled": true,
+                "show_activity": true
+            }
+        },
+        "data": {
+            "example_month": {
+                "example_day": {
+                    "mood": "number between 1 and 7",
+                    "stress_level": "number between 1 and 10",
+                    "activities": [],
+                    "note": "note"
+                }
+            }
+        }
+    }
+}
