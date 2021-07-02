@@ -19,7 +19,9 @@ If you want to use this app, you have to do several things:
 
 Because of setup being too complicated, if you are not a basic python user you will struggle doing these steps probably, if you don't know how to do any of these steps please skip because app will not work. This will be turned into .exe file and have a GUI in future!
 
+
 Contact me
 ----
-[Discord server](NYnQNTE)
+[Discord server](https://discord.gg/NYnQNTE)
+
 Discord account: Taha#4216
