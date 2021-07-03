@@ -6,7 +6,12 @@ import json
 import time
 import shutil
 #import psutil
-from pypresence import Presence
+DRP = True
+try:
+    from pypresence import Presence
+except ModuleNotFoundError:
+    DRP = False
+    
 #default value
 print("Loading app...")
 PASSWORD = ["TahaMadeThisApp", "lazypass"]
@@ -25,6 +30,13 @@ dayAndMonthData = {
     "11": 30,
     "12": 31
 }
+
+
+class SETTINGS:
+    class drp:
+        enabled = False
+        activity = False
+
 startts = time.time()
 
 DEFCOLOR = '\033[0m'
@@ -53,10 +65,19 @@ class colors:
         c9 = rgb(237, 57, 90)
         c10 = rgb(224, 52, 52)
 
+#LOAD SETTINGS
+with open("data.json", "r") as json_file:
+    data = json.load(json_file)#, object_pairs_hook=OrderedDict)
+
+    SETTINGS.drp.enabled = data["example_user"]["settings"]["discord_presence"]["enabled"]
+    SETTINGS.drp.activity = data["example_user"]["settings"]["discord_presence"]["show_activity"]
+        
+        
 #load discord rich presence
-client_id = '733025847493132371' 
-RPC = Presence(client_id,pipe=0) 
-RPC.connect()
+if SETTINGS.drp.enabled == True and DRP == True:
+    client_id = '733025847493132371' 
+    RPC = Presence(client_id,pipe=0) 
+    RPC.connect()
 
 
 ##################################################################################################
@@ -69,9 +90,13 @@ def clear():
         command = 'cls'
     os.system(command)
 
-def updateDiscordPresence(s):
-    pass
-    RPC.update(details="Using Mood Tracker App by Taha", state=s, large_image="tmt", large_text="Taha's Mood Tracker App :)", start=startts)  # Set the presence
+def updateDiscordPresence(s, first=False):
+    if DRP == True and SETTINGS.drp.enabled == True:
+        if SETTINGS.drp.activity == True:
+            RPC.update(details="Using Mood Tracker App by Taha", state=s, large_image="tmt", large_text="Taha's Mood Tracker App :)", start=startts)
+        else:
+            if first == True:
+                RPC.update(details="Using Mood Tracker App by Taha", state="Activity is hidden", large_image="tmt", large_text="Taha's Mood Tracker App :)", start=startts)
 
 def main():
     updateDiscordPresence("In Main Menu")
@@ -81,7 +106,7 @@ def main():
         print(date.today().year)
         input("Sorry! This program is outdated and needs to be updated. Press ENTER to leave.")
         exit()
-    print("Activities:\n1 - Log an activity\n2 - Get statistics\n3 - Check diary\n4 - Delete a data\n5 - Backup data\n6 - Exit")
+    print("Activities:\n1 - Log an activity\n2 - Get statistics\n3 - Check diary\n4 - Delete a data\n5 - Backup data\n6 - Settings\n7 - Exit")
     OPT_menu = input("Please type an activity: ")
     if OPT_menu == "1":
         logActivity()
@@ -94,6 +119,8 @@ def main():
     elif OPT_menu == "5":
         backupData()
     elif OPT_menu == "6":
+        settingsMenu()
+    elif OPT_menu == "7":
         exit()
     elif OPT_menu == "cmds":
         showCmds()
@@ -317,10 +344,10 @@ def logActivity():
     clear()
     curDay = str(date.today().day)
     curMonth = str(date.today().month)
-    opt = input("Choose an action:\n1 - Log an activity for today\n2 - Log an activity for any day\n> ")
+    opt = input("Choose an action:\n1 - Log an activity for today\n2 - Log an activity for any day\n3 - Cancel\n> ")
     choiceM = None
     choiceD = None
-    if opt != "1" and opt != "2":
+    if opt != "1" and opt != "2" and opt != "3":
         input("Invalid answer, press ENTER to go back to menu.")
         return
     elif opt == "2":
@@ -342,9 +369,11 @@ def logActivity():
 
         choiceM = str(choiceM)
         choiceD = str(choiceD)
-    else:
+    elif opt == "1":
         choiceM = curMonth
         choiceD = curDay
+    else:
+        return
 
     clear()
     with open("data.json", "r+") as json_file:
@@ -436,22 +465,91 @@ def deleteDataMenu():
     updateDiscordPresence("Deleting a data...")
     curDay = str(date.today().day)
     curMonth = str(date.today().month)
-    ddmOpt = input("Which data you want to delete? Please choose:\ntoday / any / cancel\n\n> ")
-    if ddmOpt == "today":
-        with open("data.json", "r+") as json_file:
+    opt = input("Which data you want to delete? Please choose:\n1 - Delete today's data\n2 - Delete any day's data\n3 - Cancel\n\n> ")
+    choiceM = None
+    choiceD = None
+    if opt != "1" and opt != "2" and opt != "3":
+        input("Invalid answer, press ENTER to go back to menu.")
+        return
+    elif opt == "2":
+        choiceM = input("Please type the month: ")
+        choiceD = input("Please type the day: ")
+        try:
+            choiceM = int(choiceM)
+            choiceD = int(choiceD)
+        except Exception:
+            input("Invalid date number, press ENTER to go back to menu.")
+            return
+
+        if choiceM > int(curMonth):
+            input("You cannot log activity for future data, press ENTER to go back to menu.")
+            return
+        elif choiceM <= int(curMonth) and choiceD > int(curDay):
+            input("You cannot log activity for future data, press ENTER to go back to menu.")
+            return
+
+        choiceM = str(choiceM)
+        choiceD = str(choiceD)
+    elif opt == "1":
+        choiceM = curMonth
+        choiceD = curDay
+    else:
+        return
+
+    with open("data.json", "r+") as json_file:
             data = json.load(json_file)#, object_pairs_hook=OrderedDict)
 
-            data["example_user"]["data"][curMonth][curDay] = {}
+            data["example_user"]["data"][choiceM][choiceD] = {}
             json_file.seek(0)
             json.dump(data, json_file, indent=4, sort_keys=False)
             json_file.truncate()
             input("Deleted the data, please press ENTER to return to menu.")
 
-    else:
-        return
+def settingsMenu():
+    clear()
+    updateDiscordPresence("In settings menu")
+    print("---------------------------------------\nSETTINGS\n---------------------------------------\n\n")
+    print("Commands:\n\ndiscordpresence [on/off] - Turns discord rich presence on/off for this app.\ndiscordpresenceactivity [on/off] - Makes it so it shows/doesn't show what are you doing in the app.")
+    cmd = input("\n>")
+    if cmd == "discordpresence on" or cmd == "discordpresence off":
+        b = None
+        if cmd == "discordpresence on":
+            b = True
+        else:
+            b = False
+
+        with open("data.json", "r+") as json_file:
+            data = json.load(json_file)#, object_pairs_hook=OrderedDict)
+            
+            data["example_user"]["settings"]["discord_presence"]["enabled"] = b
+
+            json_file.seek(0)
+            json.dump(data, json_file, indent=4, sort_keys=False)
+            json_file.truncate()
+            print("Discord presence is now", b)
+            input("You need to restart app to save changes, press ENTER to go back to menu.")
+
+    elif cmd == "discordpresenceactivity on" or cmd == "discordpresenceactivity off":
+        b = None
+        if cmd == "discordpresenceactivity on":
+            b = True
+        else:
+            b = False
+        
+        with open("data.json", "r+") as json_file:
+            data = json.load(json_file)#, object_pairs_hook=OrderedDict)
+            
+            data["example_user"]["settings"]["discord_presence"]["show_activity"] = b
+
+            json_file.seek(0)
+            json.dump(data, json_file, indent=4, sort_keys=False)
+            json_file.truncate()
+            print("Show activity in discord presence is now", b)
+            input("You need to restart app to save changes, press ENTER to go back to menu.")
+
 
 def passwordMenu():
-    updateDiscordPresence("Entering password...")
+    updateDiscordPresence("Entering password...", True)
     askpass = input("Please enter the PASSWORD to access this app: ")
     if askpass == PASSWORD[0] or askpass == PASSWORD[1]:
         while True:
