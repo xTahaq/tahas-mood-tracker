@@ -5,15 +5,17 @@ import json
 #from typing import OrderedDict
 import time
 import shutil
+from tkinter import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 #import psutil
 DRP = True
 try:
     from pypresence import Presence
 except ModuleNotFoundError:
     DRP = False
-    
 #default value
-print("Loading app...")
+print("This is debugger log, you can see all of the printed texts here.\nLoading app...")
 PASSWORD = ["TahaMadeThisApp", "lazypass"]
 workingYear = 2021
 dayAndMonthData = {
@@ -65,6 +67,8 @@ class colors:
         c9 = rgb(237, 57, 90)
         c10 = rgb(224, 52, 52)
 
+objects = []
+
 #LOAD SETTINGS
 with open("data.json", "r") as json_file:
     data = json.load(json_file)#, object_pairs_hook=OrderedDict)
@@ -74,21 +78,32 @@ with open("data.json", "r") as json_file:
         
         
 #load discord rich presence
-if SETTINGS.drp.enabled == True and DRP == True:
-    client_id = '733025847493132371' 
-    RPC = Presence(client_id,pipe=0) 
-    RPC.connect()
-
+try:
+    if SETTINGS.drp.enabled == True and DRP == True:
+        client_id = '733025847493132371' 
+        RPC = Presence(client_id,pipe=0) 
+        RPC.connect()
+except Exception:
+    DRP = False
 
 ##################################################################################################
 
 
+master = Tk()
+master.title("Taha's Mood Tracker App")
+master.minsize(1000,750)
+master.option_add("*Font", "calibri")
+mf = Frame(master)
+mf.pack(side="top", expand=True, fill="both")
+
+
 #functions
 def clear():
-    command = 'clear'
-    if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
-        command = 'cls'
-    os.system(command)
+    for widget in mf.winfo_children():
+        widget.destroy()
+
+def splitSerToArr(ser):
+    return [ser.index, ser.as_matrix()]
 
 def updateDiscordPresence(s, first=False):
     if DRP == True and SETTINGS.drp.enabled == True:
@@ -101,40 +116,51 @@ def updateDiscordPresence(s, first=False):
 def main():
     updateDiscordPresence("In Main Menu")
     clear()
-    print("--------------------------------------------------------\n\n\nWelcome to the Mood Tracker\n\nMade by Taha\n\n\n--------------------------------------------------------\n")
+    print("main menu")
     if date.today().year != workingYear:
-        print(date.today().year)
-        input("Sorry! This program is outdated and needs to be updated. Press ENTER to leave.")
+        print("returned invalid year")
+        Label(mf, text="Sorry, this program is outdated and needs to be updated to this year. Closing the program in 7 seconds...")
+        time.sleep(7)
         exit()
-    print("Activities:\n1 - Log an activity\n2 - Get statistics\n3 - Check diary\n4 - Delete a data\n5 - Backup data\n6 - Settings\n7 - Exit")
-    OPT_menu = input("Please type an activity: ")
-    if OPT_menu == "1":
-        logActivity()
-    elif OPT_menu == "2":
-        statsMenu()
-    elif OPT_menu == "3":
-        diaryMenu()
-    elif OPT_menu == "4":
-        deleteDataMenu()
-    elif OPT_menu == "5":
-        backupData()
-    elif OPT_menu == "6":
-        settingsMenu()
-    elif OPT_menu == "7":
-        exit()
-    elif OPT_menu == "cmds":
-        showCmds()
-    elif OPT_menu == "colors":
-        showColors()
-    elif OPT_menu == "codingmode":
-        codingMode()
-    elif OPT_menu == "idle":
-        idleMode()
+
+    b1 = Button(mf, text="Log an activity", command=logActivity, height=2,width=30)
+    b1.pack()
+    b2 = Button(mf, text="Get statistics (NOT AVAILABLE)", command=statsMenu, height=2,width=30)
+    b2.pack()
+    b3 = Button(mf, text="Check diary", command=diaryMenu, height=2,width=30)
+    b3.pack()
+    b4 = Button(mf, text="Delete a data (NOT AVAILABLE)", command=deleteDataMenu, height=2,width=30)
+    b4.pack()
+    b5 = Button(mf, text="Backup data", command=backupData, height=2,width=30)
+    b5.pack()
+    b6 = Button(mf, text="Settings (NOT AVAILABLE)", command=settingsMenu, height=2,width=30)
+    b6.pack()
+    b7 = Button(mf, text="Exit", command=exit, height=2,width=30)
+    b7.pack()
+    space = Label(mf, text="")
+    space.pack()
+    frame = Frame(mf)
+    frame.pack()
+    cmdEntry = Entry(frame)
+    cmdEntry.pack(side=LEFT)
+    def enterCmd():
+        cmd = cmdEntry.get()
+        if cmd == "cmds":
+            showCmds()
+        elif cmd == "codingmode":
+            codingMode()
+        elif cmd == "idle":
+            idleMode()
+        else:
+            cmdEntry.delete(0, END)
+            cmdEntry.insert(0, "Invalid cmds, type 'cmds'")
+    okbutton = Button(frame, text="OK", command=enterCmd, height=1, width=5)
+    okbutton.pack(side=RIGHT)
 
 def showCmds():
     clear()
-    print("Commands:\ncolors - Shows all colors for this app (used in statistics tab)\ncodingmode - Changes your discord presence activity to 'Coding'\nidle - Changes your discord presence activity to 'Idle'")
-    input("Press ENTER to go back to menu.")
+    Label(mf, text="Available Commands:\ncolors - Shows all colors for this app (used in statistics tab) (NOT AVAILABLE ANYMORE / CONSOLE ONLY)\nidle - Changes your discord presence activity to 'Idle'").pack()
+    Button(mf, text="Go Back", command=main).pack()
 
 def createDateData():
     returnData = {}
@@ -146,10 +172,13 @@ def createDateData():
 
 def backupData():
     clear()
+    Label(mf, text="Taking a backup...\nQuit if it takes longer than few seconds.").pack()
     print("Starting a backup...")
     shutil.copy2('data.json', 'data_backup.json')
-    input("Backup complete, press ENTER to go back.")
-    return
+    clear()
+    print("Done")
+    Label(mf, text="Took a backup, you can go back now!").pack()
+    Button(mf, text="Go Back", command=main).pack()
 
 def codingMode():
     clear()
@@ -160,8 +189,12 @@ def codingMode():
 def idleMode():
     clear()
     updateDiscordPresence("Idle")
-    input("You are in IDLE MODE. Please press ENTER to leave.")
-    return
+    print("idle mode trigger")
+    if SETTINGS.drp.activity == True and DRP == True:
+        Label(mf, text="[SUCCESS] - You are currently in Idle Mode. Press 'Go Back' to close idle mode.").pack()
+    else:
+        Label(mf, text="[ERROR] - Your discord is either closed, or you don't have an internet or you closed discord presence/discord presence activity in the settings.\nNone of these above? Try restarting.").pack()
+    Button(mf, text="Go Back", command=main).pack()
     
 def showColors():
     clear()
@@ -180,6 +213,7 @@ def printLastWeekStatistics(d, m, data, t):
         "d6": None,
         "d7": None
     }
+    """
     obj["d1"] = data["example_user"]["data"][m][d]
     if len(obj["d1"]) == 0: obj["d1"] = None
     if int(d) > 1:
@@ -199,9 +233,24 @@ def printLastWeekStatistics(d, m, data, t):
         if len(obj["d6"]) == 0: obj["d6"] = None
     if int(d) > 6:
         obj["d7"] = data["example_user"]["data"][m][str(int(d) - 6)]
-        if len(obj["d7"]) == 0: obj["d7"] = None
+        if len(obj["d7"]) == 0: obj["d7"] = None"""
     texts = []
     if (t == "mood"):
+        moodData = {}
+        monthData = data["example_user"]["data"][m]
+        loopA = 0
+        for i,v in monthData.items():
+            loopA = loopA + 1
+            if len(v.keys()) > 0:
+                moodData[i] = monthData[i]["mood"]
+            else:
+                moodData[i] = None
+        figure = plt.figure(figsize=(5,5), dpi=100)
+        figure.add_subplot(111).plot(moodData.keys(), moodData.values(), linestyle='-', marker='o')
+        plt.ylim(0, 7)
+        chart = FigureCanvasTkAgg(figure, mf)
+        chart.get_tk_widget().pack()
+        '''
         for k,v in obj.items():
             if not v:
                 texts.append("No data")
@@ -227,8 +276,8 @@ def printLastWeekStatistics(d, m, data, t):
             n = n + 1
             stringText = stringText + str(n) + " => " + i + "\n"
 
-        print(stringText)
-
+        print(stringText)'''
+    """
     elif (t == "stress"):
         
         for k,v in obj.items():
@@ -296,112 +345,122 @@ def printLastWeekStatistics(d, m, data, t):
             n = n + 1
             stringText = stringText + str(n) + " => " + i + "\n"
 
-        print(stringText)
+        print(stringText)"""
 
 
-def questions():
+def questions(choiceM, choiceD):
     returnObject = {}
+    def endQ(note):
+        clear()
+        returnObject["note"] = note
+        print(returnObject)
+        with open("data.json", "r+") as json_file:
+            data = json.load(json_file)#, object_pairs_hook=OrderedDict)
+            data["example_user"]["data"][choiceM][choiceD] = returnObject
+            json_file.seek(0)
+            json.dump(data, json_file, indent=4, sort_keys=False)
+            json_file.truncate()
+            print("logged status for today")
+
+            l = Label(mf, text="Logged status for today!")
+            l.pack()
+            b = Button(mf, text="Go back", command=main)
+            b.pack() 
+    def q4(activityTXT):
+        clear()
+        activity = activityTXT.split(",")
+        if activity[0] == "":
+            activity = []
+        n = 0
+        for i in activity:
+            activity[n] = i.strip()
+            n = n + 1
+        returnObject["activities"] = activity
+        Label(mf, text="Type a note about this day (optional)\nIt will also show up on your diary.").pack()
+        f = Frame(mf)
+        f.pack()
+        e = Entry(f)
+        e.pack(side=LEFT)
+        Button(f, text="OK", command=lambda: endQ(e.get())).pack(side=RIGHT)
+
+    def q3(n):
+        clear()
+        returnObject["stress_level"] = n
+        Label(mf, text="Type your activities, split your activities with commas (','). Leave it blank if you want.").pack()
+        f = Frame(mf)
+        f.pack()
+        e = Entry(f)
+        e.pack(side=LEFT)
+        Button(f, text="OK", command=lambda: q4(e.get())).pack(side=RIGHT)
+    def q2(n):
+        clear()
+        returnObject["mood"] = n
+        Label(mf, text="Rate your stress level from 1 to 10").pack()
+        f = Frame(mf)
+        f.pack()
+        Button(f, text="1", command=lambda: q3(1), width=3).pack(side=LEFT)
+        Button(f, text="2", command=lambda: q3(2), width=3).pack(side=LEFT)
+        Button(f, text="3", command=lambda: q3(3), width=3).pack(side=LEFT)
+        Button(f, text="4", command=lambda: q3(4), width=3).pack(side=LEFT)
+        Button(f, text="5", command=lambda: q3(5), width=3).pack(side=LEFT)
+        Button(f, text="6", command=lambda: q3(6), width=3).pack(side=LEFT)
+        Button(f, text="7", command=lambda: q3(7), width=3).pack(side=LEFT)
+        Button(f, text="8", command=lambda: q3(8), width=3).pack(side=LEFT)
+        Button(f, text="9", command=lambda: q3(9), width=3).pack(side=LEFT)
+        Button(f, text="10", command=lambda: q3(10), width=3).pack(side=LEFT)
     #mood question
-    QUESTION_mood = input("How are you feeling right now?\n1 - VERY AWESOME!\n2 - Amazing\n3 - Good\n4 - Meh\n5 - Bad\n6 - Very bad\n7 - Disgusting\n\n> ")
-    QUESTIONSUCCESS_mood = False
-
-    for i in range(1, 8):
-        if str(i) == QUESTION_mood:
-            QUESTIONSUCCESS_mood = True
-            returnObject["mood"] = i
-    if QUESTIONSUCCESS_mood == False:
-        input("Your answer was invalid. Returning to the menu. Press ENTER to continue.")
-        return
-
-    QUESTION_stresslevel = input("Rate your stress level 1 to 10: ")
-    QUESTIONSUCCESS_stresslevel = False
-
-    for i in range(1, 11):
-        if str(i) == QUESTION_stresslevel:
-            QUESTIONSUCCESS_stresslevel = True
-            returnObject["stress_level"] = i
-    if QUESTIONSUCCESS_stresslevel == False:
-        input("Your answer was invalid. Returning to the menu. Press ENTER to continue.")
-        return
-
-    returnObject["activities"] = []
-    print("Please type your activities one by one, when you are done type 'DONE'")
-    while True:
-        QUESTION_activity = input("\n>")
-        if QUESTION_activity == "DONE": 
-            break
-        else:
-            returnObject["activities"].append(QUESTION_activity)
-
-    QUESTION_notes = input("Type notes about this day! (optional)\n>>> ")
-    returnObject["note"] = QUESTION_notes
-
-    return returnObject
+    Label(mf, text="How are you feeling right now?").pack()
+    Button(mf, text="VERY AWESOME!", command=lambda: q2(7), width=14).pack()
+    Button(mf, text="Amazing", command=lambda: q2(6), width=14).pack()
+    Button(mf, text="Good", command=lambda: q2(5), width=14).pack()
+    Button(mf, text="Meh", command=lambda: q2(4), width=14).pack()
+    Button(mf, text="Bad", command=lambda: q2(3), width=14).pack()
+    Button(mf, text="Very bad", command=lambda: q2(2), width=14).pack()
+    Button(mf, text="Disgusting", command=lambda: q2(1), width=14).pack()
 
 
 def logActivity():
     updateDiscordPresence("Logging a daily activity")
     clear()
+    print("log menu")
     curDay = str(date.today().day)
     curMonth = str(date.today().month)
-    opt = input("Choose an action:\n1 - Log an activity for today\n2 - Log an activity for any day\n3 - Cancel\n> ")
-    choiceM = None
-    choiceD = None
-    if opt != "1" and opt != "2" and opt != "3":
-        input("Invalid answer, press ENTER to go back to menu.")
-        return
-    elif opt == "2":
-        choiceM = input("Please type the month: ")
-        choiceD = input("Please type the day: ")
-        try:
-            choiceM = int(choiceM)
-            choiceD = int(choiceD)
-        except Exception:
-            input("Invalid date number, press ENTER to go back to menu.")
-            return
+    def apply(choiceM, choiceD):
+        clear()
+        with open("data.json", "r+") as json_file:
+            data = json.load(json_file)#, object_pairs_hook=OrderedDict)
+            
+            if data["example_user"]["setup_status"] == 0:
+                datedata = createDateData()
+                for i,v in datedata.items():
+                    data["example_user"]["data"][i] = v
+                data["example_user"]["setup_status"] = 1
+                json_file.seek(0)
+                json.dump(data, json_file, indent=4, sort_keys=False)
+                json_file.truncate()
+                print("data setup done")
 
-        if choiceM > int(curMonth):
-            input("You cannot log activity for future data, press ENTER to go back to menu.")
-            return
-        elif choiceM <= int(curMonth) and choiceD > int(curDay):
-            input("You cannot log activity for future data, press ENTER to go back to menu.")
-            return
+            if len(data["example_user"]["data"][choiceM][choiceD]) > 0:
+                l = Label(mf, text="There's already a data about today!")
+                l.pack()
+                b = Button(mf, text="Go back", command=main)
+                b.pack()
+                return
 
-        choiceM = str(choiceM)
-        choiceD = str(choiceD)
-    elif opt == "1":
-        choiceM = curMonth
-        choiceD = curDay
-    else:
-        return
+            questions(choiceM, choiceD)
 
-    clear()
-    with open("data.json", "r+") as json_file:
-        data = json.load(json_file)#, object_pairs_hook=OrderedDict)
-        
-        if data["example_user"]["setup_status"] == 0:
-            datedata = createDateData()
-            for i,v in datedata.items():
-                data["example_user"]["data"][i] = v
-            data["example_user"]["setup_status"] = 1
-            json_file.seek(0)
-            json.dump(data, json_file, indent=4, sort_keys=False)
-            json_file.truncate()
-
-        #if data["example_user"]["data"][choiceM][choiceD] == None:
-        #    input("nope")
-        #    return
-        if len(data["example_user"]["data"][choiceM][choiceD]) > 0:
-            input("There's already data about today! Press ENTER to go back to menu.")
-            return
-        obj = questions()
-
-        data["example_user"]["data"][choiceM][choiceD] = obj
-        json_file.seek(0)
-        json.dump(data, json_file, indent=4, sort_keys=False)
-        json_file.truncate()
-
-        print("Logged status for today!")
+    def activityToday():
+        apply(curMonth, curDay)
+    def activityAny():
+        input("ERR: Not done")
+    label = Label(mf, text="Choose an action")
+    label.pack()
+    b1 = Button(mf, text="Log an activity for today", command=activityToday)
+    b1.pack()
+    b2 = Button(mf, text="Log an activity for any day", command=activityAny)
+    b2.pack()
+    b3 = Button(mf, text="Return to menu", command=main)
+    b3.pack()
         
 def statsMenu():
     updateDiscordPresence("Looking at statistics")
@@ -411,54 +470,70 @@ def statsMenu():
     with open("data.json", "r") as json_file:
         data = json.load(json_file)
 
-        print("------------------------------------\n\nMOOD AND STATUS STATISTICS\n\n------------------------------------")
-        print("\nYour mood in last 7 days:\n")
+        print("stats menu")
+        Label(mf, text="Mood statistics\nYour mood stats for this month. Higher is better.").pack()
         printLastWeekStatistics(curDay, curMonth, data, "mood")
-
-        print("\n\n")
 
         printLastWeekStatistics(curDay, curMonth, data, "stress")
 
-        print("\n\n")
-
         printLastWeekStatistics(curDay, curMonth, data, "notes")
-
-        print("\n\n")
 
         printLastWeekStatistics(curDay, curMonth, data, "activity")
 
-        print("\n\n")
-
-        input("Press ENTER to go to the menu.")
-        return
+        Button(mf, text="Go Back", command=main).pack()
 
 def diaryMenu():
+    print("diary menu")
     clear()
     updateDiscordPresence("Checking out their diary")
     curDay = date.today().day
     curMonth = date.today().month
-    print("-----------------\nDIARY\n-----------------\n\n\n")
-    with open("data.json", "r") as json_file:
-        data = json.load(json_file)
-        for i in range(1, 13):
-            if i > curMonth: break
-            print("Month " + str(i) + ":")
-            for k,v in data["example_user"]["data"][str(i)].items():
-                if len(v) == 0:
-                    if k == str(curDay) and i == curMonth:
-                        print("    Day "+ k + " (TODAY): N/A")
+    atLeastOne = False
+    def loadit(month):
+        clear()
+        month = str(month)
+        gridN = 2
+        f = Frame(mf)
+        f.pack(side="top", fill="both")
+        Button(f, text="Go back", height=1, width=10, command=main).pack(side=RIGHT)
+        Label(f, text="DIARY OF MONTH " + month).pack(side=LEFT)
+        txt = ""
+        with open("data.json", "r") as json_file:
+            data = json.load(json_file)
+            for k,v in data["example_user"]["data"][month].items():
+                gridN = gridN + 1
+                if len(v) != 0:
+                    if k == str(curDay) and int(month) == curMonth:
+                        txt = txt + "Day " + k + " (TODAY): " + v["note"] + "\n"
                         break
                     else:
-                        print("    Day "+ k + ": N/A")
-                else:
-                    if k == str(curDay) and i == curMonth:
-                        print("    Day " + k + " (TODAY): " + v["note"])
-                        break
-                    else:
-                        print("    Day " + k + ": " + v["note"])
+                        txt = txt + "Day " + k + ": " + v["note"] + "\n"
+        txtlab = Text(mf, height=500, width=1000)
+        txtlab.pack()
+        txtlab.insert(INSERT, txt)
 
-    input("Press ENTER to return to menu.")
-    return
+
+    f1 = Frame(mf)
+    f2 = Frame(mf)
+    f3 = Frame(mf)
+    f4 = Frame(mf)
+    f1.pack()
+    f2.pack()
+    f3.pack()
+    f4.pack()
+    Button(f1, text="JANUARY - 1", command=lambda: loadit(1), height=2, width=15).pack(side=LEFT)
+    Button(f1, text="FEBRUARY - 2", command=lambda: loadit(2), height=2, width=15).pack(side=LEFT)
+    Button(f1, text="MARCH - 3", command=lambda: loadit(3), height=2, width=15).pack(side=RIGHT)
+    Button(f2, text="APRIL - 4", command=lambda: loadit(4), height=2, width=15).pack(side=LEFT)
+    Button(f2, text="MAY - 5", command=lambda: loadit(5), height=2, width=15).pack(side=LEFT)
+    Button(f2, text="JUNE - 6", command=lambda: loadit(6), height=2, width=15).pack(side=RIGHT)
+    Button(f3, text="JULY - 7", command=lambda: loadit(7), height=2, width=15).pack(side=LEFT)
+    Button(f3, text="AUGUST - 8", command=lambda: loadit(8), height=2, width=15).pack(side=LEFT)
+    Button(f3, text="SEPTEMBER - 9", command=lambda: loadit(9), height=2, width=15).pack(side=RIGHT)
+    Button(f4, text="OCTOBER - 10", command=lambda: loadit(10), height=2, width=15).pack(side=LEFT)
+    Button(f4, text="NOVEMBER - 11", command=lambda: loadit(11), height=2, width=15).pack(side=LEFT)
+    Button(f4, text="DECEMBER - 12", command=lambda: loadit(12), height=2, width=15).pack(side=RIGHT)
+    
 
 def deleteDataMenu():
     clear()
@@ -549,14 +624,26 @@ def settingsMenu():
 
 
 def passwordMenu():
+
     updateDiscordPresence("Entering password...", True)
-    askpass = input("Please enter the PASSWORD to access this app: ")
-    if askpass == PASSWORD[0] or askpass == PASSWORD[1]:
-        while True:
+
+    label = Label(mf, text="Please enter the password")
+    label.pack()
+    entry = Entry(mf)
+    entry.pack()
+    labelSpace = Label(mf,text="")
+    labelSpace.pack()
+
+    def buttonFunc():
+        print("Recieved", entry.get())
+        if entry.get() == PASSWORD[0] or entry.get() == PASSWORD[1]:
             main()
-    else:
-        print("WRONG PASSWORD, exiting app in 3 seconds.")
-        time.sleep(3)
-        exit()
+        else:
+            entry.delete(0, END)
+            entry.insert(0, "WRONG PASSWORD")
+
+    button = Button(mf, text="ENTER", command=buttonFunc)
+    button.pack()
 
 passwordMenu()
+master.mainloop()

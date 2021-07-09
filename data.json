@@ -5,17 +5,9 @@
             "discord_presence": {
                 "enabled": true,
                 "show_activity": true
-            }
+            },
+            "theme": "light"
         },
-        "data": {
-            "example_month": {
-                "example_day": {
-                    "mood": "number between 1 and 7",
-                    "stress_level": "number between 1 and 10",
-                    "activities": [],
-                    "note": "note"
-                }
-            }
-        }
+        "data": {}
     }
 }
