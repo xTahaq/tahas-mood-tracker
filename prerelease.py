@@ -125,7 +125,7 @@ def main():
 
     b1 = Button(mf, text="Log an activity", command=logActivity, height=2,width=30)
     b1.pack()
-    b2 = Button(mf, text="Get statistics (NOT AVAILABLE)", command=statsMenu, height=2,width=30)
+    b2 = Button(mf, text="Get statistics", command=statsMenu, height=2,width=30)
     b2.pack()
     b3 = Button(mf, text="Check diary", command=diaryMenu, height=2,width=30)
     b3.pack()
