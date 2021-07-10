@@ -154,7 +154,7 @@ def main():
     b4.pack()
     b5 = Button(mf, text="Backup data", command=backupData, height=2,width=30)
     b5.pack()
-    b6 = Button(mf, text="Settings (NOT AVAILABLE)", command=settingsMenu, height=2,width=30)
+    b6 = Button(mf, text="Settings", command=settingsMenu, height=2,width=30)
     b6.pack()
     b7 = Button(mf, text="Exit", command=exit, height=2,width=30)
     b7.pack()
