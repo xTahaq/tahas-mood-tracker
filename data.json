@@ -1,13 +1,1 @@
-{
-    "example_user": {
-        "setup_status": 0,
-        "settings": {
-            "discord_presence": {
-                "enabled": true,
-                "show_activity": true
-            },
-            "theme": "light"
-        },
-        "data": {}
-    }
-}
+{}

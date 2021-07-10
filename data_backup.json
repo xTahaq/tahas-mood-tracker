@@ -6,7 +6,9 @@
                 "enabled": true,
                 "show_activity": true
             },
-            "theme": "light"
+            "visual": {
+                "theme": "LIGHT"
+            }
         },
         "data": {}
     }

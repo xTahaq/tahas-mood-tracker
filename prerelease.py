@@ -35,9 +35,11 @@ dayAndMonthData = {
 
 
 class SETTINGS:
+    class visual:
+        theme = "LIGHT"
     class drp:
-        enabled = False
-        activity = False
+        enabled = True
+        activity = True
 
 startts = time.time()
 
@@ -73,8 +75,12 @@ objects = []
 with open("data.json", "r") as json_file:
     data = json.load(json_file)#, object_pairs_hook=OrderedDict)
 
-    SETTINGS.drp.enabled = data["example_user"]["settings"]["discord_presence"]["enabled"]
-    SETTINGS.drp.activity = data["example_user"]["settings"]["discord_presence"]["show_activity"]
+    if len(data) == 0:
+        shutil.copy2('data_backup.json', 'data.json') # tries to copy things in data_backup.json to data.json if there's no data found
+    else:
+        SETTINGS.visual.theme = data["example_user"]["settings"]["visual"]["theme"]
+        SETTINGS.drp.enabled = data["example_user"]["settings"]["discord_presence"]["enabled"]
+        SETTINGS.drp.activity = data["example_user"]["settings"]["discord_presence"]["show_activity"]
         
         
 #load discord rich presence
@@ -88,14 +94,29 @@ except Exception:
 
 ##################################################################################################
 
-
+# load GUI
 master = Tk()
 master.title("Taha's Mood Tracker App")
 master.minsize(1000,750)
 master.option_add("*Font", "calibri")
-mf = Frame(master)
-mf.pack(side="top", expand=True, fill="both")
+guigap = Label(master, text=" \n ")
+guigap.pack()
+mf = Frame(master) # main frame
+mf.pack(side=TOP, fill=X)
+gf = Frame(master, bd=0) # gridded frame
+gf.pack(side=TOP, fill=X)
 
+# load general settings
+class default:
+    bg = "#F0F0F0"
+    text = "black"
+if SETTINGS.visual.theme == "DARK":
+    guigap["bg"] = "#2c2f33"
+    master["bg"] = "#2c2f33"
+    mf["bg"] = "#2c2f33"
+    gf["bg"] = "#2c2f33"
+    default.bg = "#2c2f33"
+    default.text = "#99aab5"
 
 #functions
 def clear():
@@ -119,7 +140,7 @@ def main():
     print("main menu")
     if date.today().year != workingYear:
         print("returned invalid year")
-        Label(mf, text="Sorry, this program is outdated and needs to be updated to this year. Closing the program in 7 seconds...")
+        Label(mf, bg=default.bg, fg=default.text, text="Sorry, this program is outdated and needs to be updated to this year. Closing the program in 7 seconds...")
         time.sleep(7)
         exit()
 
@@ -137,9 +158,9 @@ def main():
     b6.pack()
     b7 = Button(mf, text="Exit", command=exit, height=2,width=30)
     b7.pack()
-    space = Label(mf, text="")
+    space = Label(mf, bg=default.bg, fg=default.text, text="")
     space.pack()
-    frame = Frame(mf)
+    frame = Frame(mf, bg=default.bg)
     frame.pack()
     cmdEntry = Entry(frame)
     cmdEntry.pack(side=LEFT)
@@ -159,7 +180,7 @@ def main():
 
 def showCmds():
     clear()
-    Label(mf, text="Available Commands:\ncolors - Shows all colors for this app (used in statistics tab) (NOT AVAILABLE ANYMORE / CONSOLE ONLY)\nidle - Changes your discord presence activity to 'Idle'").pack()
+    Label(mf, bg=default.bg, fg=default.text, text="Available Commands:\ncolors - Shows all colors for this app (used in statistics tab) (NOT AVAILABLE ANYMORE / CONSOLE ONLY)\nidle - Changes your discord presence activity to 'Idle'").pack()
     Button(mf, text="Go Back", command=main).pack()
 
 def createDateData():
@@ -172,12 +193,12 @@ def createDateData():
 
 def backupData():
     clear()
-    Label(mf, text="Taking a backup...\nQuit if it takes longer than few seconds.").pack()
+    Label(mf, bg=default.bg, fg=default.text, text="Taking a backup...\nQuit if it takes longer than few seconds.").pack()
     print("Starting a backup...")
     shutil.copy2('data.json', 'data_backup.json')
     clear()
     print("Done")
-    Label(mf, text="Took a backup, you can go back now!").pack()
+    Label(mf, bg=default.bg, fg=default.text, text="Took a backup, you can go back now!").pack()
     Button(mf, text="Go Back", command=main).pack()
 
 def codingMode():
@@ -191,9 +212,9 @@ def idleMode():
     updateDiscordPresence("Idle")
     print("idle mode trigger")
     if SETTINGS.drp.activity == True and DRP == True:
-        Label(mf, text="[SUCCESS] - You are currently in Idle Mode. Press 'Go Back' to close idle mode.").pack()
+        Label(mf, bg=default.bg, fg=default.text, text="[SUCCESS] - You are currently in Idle Mode. Press 'Go Back' to close idle mode.").pack()
     else:
-        Label(mf, text="[ERROR] - Your discord is either closed, or you don't have an internet or you closed discord presence/discord presence activity in the settings.\nNone of these above? Try restarting.").pack()
+        Label(mf, bg=default.bg, fg=default.text, text="[ERROR] - Your discord is either closed, or you don't have an internet or you closed discord presence/discord presence activity in the settings.\nNone of these above? Try restarting.").pack()
     Button(mf, text="Go Back", command=main).pack()
     
 def showColors():
@@ -362,7 +383,7 @@ def questions(choiceM, choiceD):
             json_file.truncate()
             print("logged status for today")
 
-            l = Label(mf, text="Logged status for today!")
+            l = Label(mf, bg=default.bg, fg=default.text, text="Logged status for today!")
             l.pack()
             b = Button(mf, text="Go back", command=main)
             b.pack() 
@@ -376,8 +397,8 @@ def questions(choiceM, choiceD):
             activity[n] = i.strip()
             n = n + 1
         returnObject["activities"] = activity
-        Label(mf, text="Type a note about this day (optional)\nIt will also show up on your diary.").pack()
-        f = Frame(mf)
+        Label(mf, bg=default.bg, fg=default.text, text="Type a note about this day (optional)\nIt will also show up on your diary.").pack()
+        f = Frame(mf, bg=default.bg)
         f.pack()
         e = Entry(f)
         e.pack(side=LEFT)
@@ -386,8 +407,8 @@ def questions(choiceM, choiceD):
     def q3(n):
         clear()
         returnObject["stress_level"] = n
-        Label(mf, text="Type your activities, split your activities with commas (','). Leave it blank if you want.").pack()
-        f = Frame(mf)
+        Label(mf, bg=default.bg, fg=default.text, text="Type your activities, split your activities with commas (','). Leave it blank if you want.").pack()
+        f = Frame(mf, bg=default.bg)
         f.pack()
         e = Entry(f)
         e.pack(side=LEFT)
@@ -395,8 +416,8 @@ def questions(choiceM, choiceD):
     def q2(n):
         clear()
         returnObject["mood"] = n
-        Label(mf, text="Rate your stress level from 1 to 10").pack()
-        f = Frame(mf)
+        Label(mf, bg=default.bg, fg=default.text, text="Rate your stress level from 1 to 10").pack()
+        f = Frame(mf, bg=default.bg)
         f.pack()
         Button(f, text="1", command=lambda: q3(1), width=3).pack(side=LEFT)
         Button(f, text="2", command=lambda: q3(2), width=3).pack(side=LEFT)
@@ -409,7 +430,7 @@ def questions(choiceM, choiceD):
         Button(f, text="9", command=lambda: q3(9), width=3).pack(side=LEFT)
         Button(f, text="10", command=lambda: q3(10), width=3).pack(side=LEFT)
     #mood question
-    Label(mf, text="How are you feeling right now?").pack()
+    Label(mf, bg=default.bg, fg=default.text, text="How are you feeling right now?").pack()
     Button(mf, text="VERY AWESOME!", command=lambda: q2(7), width=14).pack()
     Button(mf, text="Amazing", command=lambda: q2(6), width=14).pack()
     Button(mf, text="Good", command=lambda: q2(5), width=14).pack()
@@ -441,7 +462,7 @@ def logActivity():
                 print("data setup done")
 
             if len(data["example_user"]["data"][choiceM][choiceD]) > 0:
-                l = Label(mf, text="There's already a data about today!")
+                l = Label(mf, bg=default.bg, fg=default.text, text="There's already a data about today!")
                 l.pack()
                 b = Button(mf, text="Go back", command=main)
                 b.pack()
@@ -453,7 +474,7 @@ def logActivity():
         apply(curMonth, curDay)
     def activityAny():
         input("ERR: Not done")
-    label = Label(mf, text="Choose an action")
+    label = Label(mf, bg=default.bg, fg=default.text, text="Choose an action")
     label.pack()
     b1 = Button(mf, text="Log an activity for today", command=activityToday)
     b1.pack()
@@ -471,7 +492,7 @@ def statsMenu():
         data = json.load(json_file)
 
         print("stats menu")
-        Label(mf, text="Mood statistics\nYour mood stats for this month. Higher is better.").pack()
+        Label(mf, bg=default.bg, fg=default.text, text="Mood statistics\nYour mood stats for this month. Higher is better.").pack()
         printLastWeekStatistics(curDay, curMonth, data, "mood")
 
         printLastWeekStatistics(curDay, curMonth, data, "stress")
@@ -493,10 +514,10 @@ def diaryMenu():
         clear()
         month = str(month)
         gridN = 2
-        f = Frame(mf)
+        f = Frame(mf, bg=default.bg)
         f.pack(side="top", fill="both")
         Button(f, text="Go back", height=1, width=10, command=main).pack(side=RIGHT)
-        Label(f, text="DIARY OF MONTH " + month).pack(side=LEFT)
+        Label(f, bg=default.bg, fg=default.text, text="DIARY OF MONTH " + month).pack(side=LEFT)
         txt = ""
         with open("data.json", "r") as json_file:
             data = json.load(json_file)
@@ -508,15 +529,15 @@ def diaryMenu():
                         break
                     else:
                         txt = txt + "Day " + k + ": " + v["note"] + "\n"
-        txtlab = Text(mf, height=500, width=1000)
+        txtlab = Text(mf, bg=default.bg, fg=default.text, height=30, width=200)
         txtlab.pack()
         txtlab.insert(INSERT, txt)
 
 
-    f1 = Frame(mf)
-    f2 = Frame(mf)
-    f3 = Frame(mf)
-    f4 = Frame(mf)
+    f1 = Frame(mf, bg=default.bg)
+    f2 = Frame(mf, bg=default.bg)
+    f3 = Frame(mf, bg=default.bg)
+    f4 = Frame(mf, bg=default.bg)
     f1.pack()
     f2.pack()
     f3.pack()
@@ -580,10 +601,87 @@ def deleteDataMenu():
             json_file.truncate()
             input("Deleted the data, please press ENTER to return to menu.")
 
+def changeSetting(c, s, inp):
+    with open("data.json", "r+") as json_file:
+        data = json.load(json_file)#, object_pairs_hook=OrderedDict)
+            
+        settingLoc = data["example_user"]["settings"]
+        refreshThePage = False
+
+        if c == "visual":   
+            if s == "theme":
+                settingLoc["visual"]["theme"] = inp
+                SETTINGS.visual.theme = inp
+                
+                if inp == "DARK":
+                    guigap["bg"] = "#2c2f33"
+                    master["bg"] = "#2c2f33"
+                    mf["bg"] = "#2c2f33"
+                    gf["bg"] = "#2c2f33"
+                    default.bg = "#2c2f33"
+                    default.text = "#99aab5"
+                else:
+                    guigap["bg"] = "#F0F0F0"
+                    master["bg"] = "#F0F0F0"
+                    mf["bg"] = "#F0F0F0"
+                    gf["bg"] = "#F0F0F0"
+                    default.bg = "#F0F0F0"
+                    default.text = "black"
+                refreshThePage = True
+                    
+        elif c == "discord":
+            if s == "rpToggle":
+                settingLoc["discord_presence"]["enabled"] = inp
+            elif s == "rpActToggle":
+                settingLoc["discord_presence"]["show_activity"] = inp
+
+            clear()
+            Label(mf, bg=default.bg, fg=default.text, text="WARNING: You need to restart the app to apply changes on discord presence settings.\n ").pack()
+            Button(mf, text="I understand", command=settingsMenu).pack()
+
+        json_file.seek(0)
+        json.dump(data, json_file, indent=4, sort_keys=False)
+        json_file.truncate()
+
+        if refreshThePage == True:
+            settingsMenu()
+
+            
 def settingsMenu():
     clear()
     updateDiscordPresence("In settings menu")
-    print("---------------------------------------\nSETTINGS\n---------------------------------------\n\n")
+    print("settings")
+    Label(mf, bg=default.bg, fg=default.text, text="SETTINGS").pack()
+    Label(mf, bg=default.bg, fg=default.text, text=" \n \n ").pack()
+
+    Label(mf, bg=default.bg, fg=default.text, text="Visual Settings").pack()
+
+    setting1 = Frame(mf, bg=default.bg, height=1, width=50)
+    setting1.pack()
+    Label(setting1, bg=default.bg, fg=default.text, text="Background Theme            ").pack(side=LEFT)
+    Button(setting1, text="LIGHT", command=lambda: changeSetting("visual", "theme", "LIGHT")).pack(side=LEFT)
+    Button(setting1, text="DARK", command=lambda: changeSetting("visual", "theme", "DARK")).pack(side=RIGHT)
+
+    Label(mf, bg=default.bg, fg=default.text, text=" \n ").pack()
+
+    Label(mf, bg=default.bg, fg=default.text, text="Discord Settings").pack()
+
+    setting2 = Frame(mf, bg=default.bg, height=1, width=50)
+    setting2.pack()
+    Label(setting2, bg=default.bg, fg=default.text, text="Discord Presence                      ").pack(side=LEFT)
+    Button(setting2, text="ON", command=lambda: changeSetting("discord", "rpToggle", True)).pack(side=LEFT)
+    Button(setting2, text="OFF", command=lambda: changeSetting("discord", "rpToggle", False)).pack(side=RIGHT)
+    Label(mf, bg=default.bg, fg=default.text, text="")
+
+    setting3 = Frame(mf, bg=default.bg, height=1, width=50)
+    setting3.pack()
+    Label(setting3, bg=default.bg, fg=default.text, text="Discord Presence Activity         ").pack(side=LEFT)
+    Button(setting3, text="ON", command=lambda: changeSetting("discord", "rpActToggle", True)).pack(side=LEFT)
+    Button(setting3, text="OFF", command=lambda: changeSetting("discord", "rpActToggle", False)).pack(side=RIGHT)
+    Label(mf, bg=default.bg, fg=default.text, text=" \n ").pack()
+    Button(mf, text="Go back", command=main).pack()
+
+    """
     print("Commands:\n\ndiscordpresence [on/off] - Turns discord rich presence on/off for this app.\ndiscordpresenceactivity [on/off] - Makes it so it shows/doesn't show what are you doing in the app.")
     cmd = input("\n>")
     if cmd == "discordpresence on" or cmd == "discordpresence off":
@@ -620,23 +718,23 @@ def settingsMenu():
             json.dump(data, json_file, indent=4, sort_keys=False)
             json_file.truncate()
             print("Show activity in discord presence is now", b)
-            input("You need to restart app to save changes, press ENTER to go back to menu.")
+            input("You need to restart app to save changes, press ENTER to go back to menu.")"""
 
 
 def passwordMenu():
 
     updateDiscordPresence("Entering password...", True)
 
-    label = Label(mf, text="Please enter the password")
+    label = Label(mf, bg=default.bg, fg=default.text, text="Please enter the password")
     label.pack()
     entry = Entry(mf)
     entry.pack()
-    labelSpace = Label(mf,text="")
+    labelSpace = Label(mf, bg=default.bg, fg=default.text, text="")
     labelSpace.pack()
 
     def buttonFunc():
         print("Recieved", entry.get())
-        if entry.get() == PASSWORD[0] or entry.get() == PASSWORD[1]:
+        if entry.get() == PASSWORD[0] or entry.get() == PASSWORD[1] or entry.get() == PASSWORD[2]:
             main()
         else:
             entry.delete(0, END)
