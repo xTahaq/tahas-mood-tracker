@@ -1,3 +1,7 @@
+24 AUGUST NOTE
+----
+This project is paused for now. Might continue in future, might not.
+
 Taha's Mood Tracker App
 ----
 
