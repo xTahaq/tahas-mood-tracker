@@ -1,4 +1,8 @@
-Taha's Mood Tracker App
+29 OCTOBER UPDATE
+----
+I started to work on this project again (because i need it)! Project will be re-written in HTML & JSON. See you in first demo!
+
+Taha's Mood Tracker App (old)
 ----
 
 Hello! This is a very simple project i'm working on: mood tracker app.
