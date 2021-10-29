@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Adding Data</title>
+  </head>
+  <body>
+    <div id="navbar-div"></div>
+    <div class="div-normal"><h1>Add a data for today or any day.</h1></div>
+    <div class="div-normal"><h3>Do you want to enter data of today or other day? (if it's other day please enter day and month)</h3></div>
+    <div class="div-normal">
+        <input type="radio" id="day_today" name="chooseDay" value="TODAY" onclick="dayOptionChanged()">
+        <label for="day_today">Today</label><br><br>
+        <input type="radio" id="day_other" name="chooseDay" value="OTHERDAY" onclick="dayOptionChanged()">
+        <label for="day_other">Custom</label><br>
+        <input type="date" id="customDayDate" min="2021-01-01">
+    </div><br>
+    <div class="div-normal">
+        <h3>How stressful were you feeling today, from 0 to 10?</h3><br>
+        <input type="number" id="stressIndex" min="0" max="10" value="0" onchange="checkIfNumberIsRight()">
+    </div><br>
+    <div class="div-normal">
+        <h3>How is your mood today, from 0 to 10? (higher is better)</h3><br>
+        <input type="number" id="moodIndex" min="0" max="10" value="0" onchange="checkIfNumberIsRight()">
+    </div><br>
+    <div class="div-normal">
+        <h3>List your activities you did today, if you want! (optional - max: 20)</h3><br>
+        <input type="text" id="activity" placeholder="Type any activity here">
+        <button id="activityEnter" onclick="activityEntered()">Enter</button> <button id="activityReset" onclick="activityReseted()">Reset</button>
+        <p id="activityText">Activities you entered: None</p>
+    </div><br>
+    <div class="div-normal">
+        <h3>Take notes and make diary of today! (optional)</h3><br>
+        <textarea id="diary" rows=10 cols=70 placeholder="Type anything here!"></textarea>
+    </div>
+    <div class="div-normal">
+        <h2 id="output"></h2>
+    </div>
+    <div class="div-normal">
+        <button class="bigger-button" id="ENTER_DATA" onclick="ENTER()">Enter Data</button>
+    </div>
+  </body>
+  <script src="loadWebsite.js"></script>
+  <script src="addDataScript.js"></script>
+</html>
