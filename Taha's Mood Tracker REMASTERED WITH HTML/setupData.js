@@ -1,3 +1,9 @@
+function checkYear() {
+    if (new Date().getFullYear() != 2021) {
+      alert("CRITICAL WARNING: YEAR IS NOT 2021. MONTH-DAY NUMBERS WILL BE INCORRECT AND YOU MIGHT BREAK THE APP. PLEASE UPDATE THE APP IF YEAR IS 2022, DOWNLOAD HERE => https://github.com/xTahaq/tahas-mood-tracker  / (please clear your data at settings after updating)")
+    }
+}
+
 dayAndMonthData = {
     "1": 31,
     "2": 28,
@@ -13,6 +19,8 @@ dayAndMonthData = {
     "12": 31
 }
 
+checkYear()
+
 function check() {
     if (!localStorage.tmt) {
         return true
@@ -26,6 +34,7 @@ if (check() === true) {
     data = {
         status: "INCOMPLETE",
         createdAtVersion: VERSION,
+        createdAtYear: 2021,
         data: {}
     }
 

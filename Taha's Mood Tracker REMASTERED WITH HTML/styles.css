@@ -46,8 +46,12 @@ p {
     text-align: center;
     display: block;
     margin: auto;
-    width: 60%;
+    width: 80%;
     padding: 12px;
+}
+.div-space {
+    padding: 12px;
+    margin: 12px;
 }
 
 textarea {
@@ -58,6 +62,15 @@ textarea {
     width: 12rem;
     text-align: center;
     border-radius: 5px;
+}
+.bigger-widther-button {
+    height: 5rem;
+    width: 20rem;
+    text-align: center;
+    border-radius: 5px;
+}
+.link-color {
+    color: blueviolet;
 }
 
 button:hover {
