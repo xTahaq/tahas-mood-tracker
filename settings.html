@@ -10,24 +10,40 @@
     <div id="navbar-div"></div>
     <div class="div-normal"><h1>SETTINGS TAB</h1></div><br><br>
     <div class="div-normal">
-        <h2>Check for updates</h2>
+      <h2>Appearance & Theme Settings</h2><br>
+      <div class="div-normal">
+        <h3>Main Appearance</h3> 
         <div class="div-normal">
-            <p>Update status: Didn't check yet</p>
-            <button class="bigger-widther-button" onclick="checkUpdate()">Click this button to check for updates (needs internet connection).</button>
-        </div><br><br>
-        <h2>Data Settings (DANGER ZONE)</h3><br>
-        <div class="div-normal">
-            <h3>Reset and Clear Data</h3>
-            <button class="bigger-widther-button" id="RESET_DATA" onclick="clearData()">PRESSING THIS BUTTON WILL CLEAR AND RESET YOUR ENTIRE DATA IN THE MOOD TRACKER APP.</button>
-        </div><br>
-        <div class="div-normal">
-            <h3>Save & Backup Data</h3>
-            <p>This part is ADVANCED and you might break the app and lose your data completely. Please know what you're doing!<br>Please look at <a href="help.html" class="link-color"><strong>help</strong></a> page to see how to use this. If you still aren't sure contact the owner.<br>This is only used for taking backups while changing versions in case you lose your data. Copy it, update it and if you lose your data paste it in new version.</p><br>
-            <p><strong>Copy Your Data to Clipboard</strong></p>
-            <button class="bigger-widther-button" onclick="copyData()">Pressing this button will copy your entire data to your clipboard. You can paste it with CTRL+V afterwards.</button><br>
-            <p><strong>Paste Your Data</strong></p>
-            <textarea cols="50" rows="2" placeholder="Paste your data here. PLEASE DO NOT PASTE ANYTHING OTHER THAN THE DATA YOU COPIED." id="dataInput"></textarea><button onclick="pasteData()">Paste</button>
+          <label>Background Image:  </label><input type="text" placeholder="Type a photo url here" id="input_bg_img"></input> <button onclick="changeSetting('bg_img', 'input')">Save</button> <button onclick="changeSetting('bg_img', 'reset')">Remove Background</button><br>
+          <label>Background Color:  </label><input type="color" id="input_bg_clr"></input> <button onclick="changeSetting('bg_clr', 'input')">Save</button> <button onclick="changeSetting('bg_clr', 'reset')">Reset to Default</button><br>
+          <label>Text Color:  </label><input type="color" id="input_txt_clr"></input> <button onclick="changeSetting('txt_clr', 'input')">Save</button> <button onclick="changeSetting('txt_clr', 'reset')">Reset to Default</button>
         </div>
+      </div>
+    </div>
+    <div class="div-normal">
+      <h2>Reset Settings</h2>
+      <p>This will reset basic settings (aka. preferences) such as background image, background color, text color etc.<br>THIS IS EXTREMELY IMPORTANT IF YOU UPDATED YOUR APP.</p>
+      <button class="bigger-button" onclick="createSettings()">Reset Settings</button>
+    </div>
+    <div class="div-normal">
+      <div class="div-normal">
+        <h2>Check for updates</h2>
+        <p>Update status: Didn't check yet</p>
+        <button class="bigger-widther-button" onclick="checkUpdate()">Click this button to check for updates (needs internet connection).</button>
+      </div><br><br>
+      <div class="div-normal">
+        <h2>Data Settings (DANGER ZONE)</h2><br>
+        <h3>Reset and Clear Data</h3>
+        <button class="bigger-widther-button" id="RESET_DATA" onclick="clearData()">PRESSING THIS BUTTON WILL CLEAR AND RESET YOUR ENTIRE DATA IN THE MOOD TRACKER APP.</button>
+      </div><br>
+      <div class="div-normal">
+        <h3>Save & Backup Data</h3>
+        <p>This part is ADVANCED and you might break the app and lose your data completely. Please know what you're doing!<br>Please look at <a href="help.html" class="link-color"><strong>help</strong></a> page to see how to use this. If you still aren't sure contact the owner.<br>This is only used for taking backups while changing versions in case you lose your data. Copy it, update it and if you lose your data paste it in new version.</p><br>
+        <p><strong>Copy Your Data to Clipboard</strong></p>
+        <button class="bigger-widther-button" onclick="copyData()">Pressing this button will copy your entire data to your clipboard. You can paste it with CTRL+V afterwards.</button><br>
+        <p><strong>Paste Your Data</strong></p>
+        <textarea cols="50" rows="4" placeholder="Paste your data here. PLEASE DO NOT PASTE ANYTHING OTHER THAN THE DATA YOU COPIED UNLESS YOU KNOW WHAT YOU ARE DOING." id="dataInput"></textarea><button onclick="pasteData()">Paste</button>
+      </div>
     </div>
   </body>
   <script src="loadWebsite.js"></script>

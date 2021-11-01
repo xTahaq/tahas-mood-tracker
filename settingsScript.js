@@ -1,6 +1,9 @@
 //const resetdata = document.getElementById("RESET_DATA")
 const dataInput = document.getElementById("dataInput")
 
+function refresh() {
+    window.location.reload()
+}
 function clearData() {
     if (confirm("Are you sure? Pressing OK will CLEAR and RESET YOUR ENTIRE DATA!")) {
         localStorage.tmt = JSON.stringify({
@@ -35,6 +38,63 @@ function pasteData() {
 
 }
 
+function createSettings() {
+    console.warn("Creating the settings data...")
+    parsedData = JSON.parse(localStorage.tmt)
+    parsedData.settings = SETTINGS_OBJECT
+    localStorage.tmt = JSON.stringify(parsedData)
+    console.log("Done.")
+    refresh()
+  }
+
 function checkUpdate() {
-    return alert("This is unavailable in dev builds & early access releases, will be added after a full release is out.")
+    return alert("Coming soon")
+}
+
+function changeSetting(setting, arg) {
+    if (!localStorage.tmt) return alert("No data found, please head to the main page first.")
+    tmt = JSON.parse(localStorage.tmt)
+    if (!tmt.settings) {
+        createSettings()
+        tmt = JSON.parse(localStorage.tmt)
+    }
+    if (setting === "bg_img") {
+        if (arg === "input") {
+            inp = document.getElementById("input_bg_img")
+            if (inp) {
+                tmt.settings.bg_img = inp.value
+            }
+        } else {
+            tmt.settings.bg_img = ""
+        }
+    } else if (setting === "bg_clr") {
+        if (arg === "input") {
+            inp = document.getElementById("input_bg_clr")
+            if (inp) {
+                tmt.settings.bg_clr = inp.value
+            }
+        } else {
+            tmt.settings.bg_clr = ""
+        }
+    } else if (setting === "txt_clr") {
+        if (arg === "input") {
+            inp = document.getElementById("input_txt_clr")
+            if (inp) {
+                tmt.settings.txt_clr = inp.value
+            }
+        } else {
+            tmt.settings.txt_clr = ""
+        }
+    }
+    localStorage.tmt = JSON.stringify(tmt)
+    refresh()
+}
+
+if (localStorage.tmt) {
+    tmt = JSON.parse(localStorage.tmt)
+    if (tmt.settings) {
+        document.getElementById("input_bg_img").value = tmt.settings.bg_img
+        document.getElementById("input_bg_clr").value = tmt.settings.bg_clr
+        document.getElementById("input_txt_clr").value = tmt.settings.txt_clr
+    }
 }

@@ -6,6 +6,15 @@
 
 html {
     font-family: sans-serif;
+    min-height: 100%;
+}
+
+body {
+    /*background-image: url(https://img.youtube.com/vi/xz-ahjSNf6o/hqdefault.jpg);*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100%;
 }
 
 a {
@@ -71,6 +80,7 @@ textarea {
 }
 .link-color {
     color: blueviolet;
+    text-decoration:underline;
 }
 
 button:hover {
