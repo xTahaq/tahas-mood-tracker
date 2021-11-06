@@ -33,6 +33,7 @@ function pasteData() {
         status: "DONE",
         createdAtVersion: VERSION,
         createdAtYear: 2021,
+        settings: pastedData.settings,
         data: pastedData.data
     })
 
@@ -48,7 +49,16 @@ function createSettings() {
   }
 
 function checkUpdate() {
-    return alert("Coming soon")
+    outp = document.getElementById("versionOutput")
+    outp.innerText = `Update status: Checking...`
+    fetch("https://raw.githubusercontent.com/xTahaq/tahas-mood-tracker/master/appinfo.json").then(res => res.json()).then(versionJson => {
+            outp = document.getElementById("versionOutput")
+            if (versionJson.version != VERSION) {
+                outp.innerText = `Update status: New version available! (${VERSION} => ${versionJson.version}) Please update it at https://github.com/xTahaq/tahas-mood-tracker`
+            } else {
+                outp.innerText = `Update status: ${VERSION} is not outdated, you are up-to-date!`
+            }
+        }).catch(err => alert(err))
 }
 
 function changeSetting(setting, arg) {
@@ -85,6 +95,12 @@ function changeSetting(setting, arg) {
         } else {
             tmt.settings.txt_clr = ""
         }
+    } else if (setting === "alert_errors") {
+        if (arg === "true") {
+            tmt.settings.alert_errors = true
+        } else {
+            tmt.settings.alert_errors = false
+        }
     }
     localStorage.tmt = JSON.stringify(tmt)
     refresh()
@@ -94,7 +110,8 @@ if (localStorage.tmt) {
     tmt = JSON.parse(localStorage.tmt)
     if (tmt.settings) {
         document.getElementById("input_bg_img").value = tmt.settings.bg_img
-        document.getElementById("input_bg_clr").value = tmt.settings.bg_clr
-        document.getElementById("input_txt_clr").value = tmt.settings.txt_clr
+        document.getElementById("input_bg_clr").value = tmt.settings.bg_clr || "#FFFFFF"
+        document.getElementById("input_txt_clr").value = tmt.settings.txt_clr || "#000000"
+        document.getElementById("alerterrinf").innerText = `(current: ${tmt.settings.alert_errors})`
     }
 }

@@ -19,6 +19,10 @@
           <label>Text Color:  </label><input type="color" id="input_txt_clr"></input> <button onclick="changeSetting('txt_clr', 'input')">Save</button> <button onclick="changeSetting('txt_clr', 'reset')">Reset to Default</button>
         </div>
       </div>
+      <h2>General Settings</h2>
+      <div class="div-normal">
+        <label>Error notifications:  </label> <button onclick="changeSetting('alert_errors', 'true')">True</button> <button onclick="changeSetting('alert_errors', 'false')">False</button> <label id="alerterrinf">(current: unknown)</label>
+      </div>
     </div>
     <div class="div-normal">
       <h2>Reset Settings</h2>
@@ -28,7 +32,7 @@
     <div class="div-normal">
       <div class="div-normal">
         <h2>Check for updates</h2>
-        <p>Update status: Didn't check yet</p>
+        <p id="versionOutput">Update status: Didn't check yet</p>
         <button class="bigger-widther-button" onclick="checkUpdate()">Click this button to check for updates (needs internet connection).</button>
       </div><br><br>
       <div class="div-normal">

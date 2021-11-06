@@ -1,4 +1,4 @@
-Taha's Mood Tracker App (v2.0.0-pre1)
+Taha's Mood Tracker App (v2.0.0)
 ----
 Open main.html first to start the app.
 
@@ -8,7 +8,7 @@ This app was made in python console first, then turned it to python w/Tkinter, a
 
 You can enter your stress and mood rating, activities and diary about that day.
 
-You will be able to track your mood with stats (but this is currently not done in this pre-release, for now you can only view your diary and today-only stats.
+You will be able to track your mood and stress index with graphs.
 
 For more additional information about it navigate to help page in the app.
 

@@ -21,6 +21,7 @@ a {
     text-decoration: none;
     color: black;
 }
+
 #navbar {
     display: flex;
     align-items: center;
@@ -93,4 +94,8 @@ button:active {
 
 #output {
     color: green;
+}
+
+.canvasjs-chart-credit {
+    display: none;
 }

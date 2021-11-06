@@ -8,9 +8,9 @@ activities = []
 const dayToday = document.getElementById("day_today")
 const dayCustom = document.getElementById("day_other")
 const customDayDate = document.getElementById("customDayDate")
-const stress = document.getElementById("stressIndex")
-const mood = document.getElementById("moodIndex")
-const activity = document.getElementById("activity")
+const stressI = document.getElementById("stressIndex")
+const moodI = document.getElementById("moodIndex")
+const activityObj = document.getElementById("activity")
 const activityEnter = document.getElementById("activityEnter")
 const activityReset = document.getElementById("activityReset")
 const activityOutput = document.getElementById("activityText")
@@ -32,14 +32,14 @@ function dayOptionChanged() {
 }
 
 function checkIfNumberIsRight() {
-    if (mood.value < 0) mood.value = 0
-    if (mood.value > 10) mood.value = 10
-    if (stress.value < 0) stress.value = 0
-    if (stress.value > 10) stress.value = 10
+    if (moodI.value < 0) moodI.value = 0
+    if (moodI.value > 10) moodI.value = 10
+    if (stressI.value < 0) stressI.value = 0
+    if (stressI.value > 10) stressI.value = 10
 }
 
 function activityEntered() {
-    entered = activity.value.trim()
+    entered = activityObj.value.trim()
     console.log(entered)
     if (entered === "") return
     if (activities.find(e => e === entered)) return
@@ -47,21 +47,21 @@ function activityEntered() {
     if (entered.length > 256) return
     activities.push(entered)
     activityOutput.innerText = "Activities: " + activities.join(", ")
-    activity.value = ""
+    activityObj.value = ""
 }
 
 function activityReseted() {
     activities = []
     activityOutput.innerText = "Activities: None"
-    activity.value = ""
+    activityObj.value = ""
 }
 
 function ENTER() {
     targetDay = 1
     targetMonth = 1
     object = {
-        "mood": mood.value,
-        "stress": stress.value,
+        "mood": moodI.value,
+        "stress": stressI.value,
         "activities": activities,
         "diary": diary.value
     }

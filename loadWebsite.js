@@ -1,6 +1,6 @@
 // Do NOT touch any variables or anything here
-VERSION = "v2.0.0-pre1"
-
+VERSION = "v2.0.0"
+Settings = null
 // pre-loaded objects
 
 OBJ_NAVBAR = `<header>
@@ -19,7 +19,8 @@ OBJ_NAVBAR = `<header>
 SETTINGS_OBJECT = {
   bg_img: "",
   bg_clr: "",
-  txt_clr: ""
+  txt_clr: "",
+  alert_errors: true
 }
 
 //Funcs
@@ -32,7 +33,6 @@ function handleError(evt) {
 }
 
 function loadSettings() {
-  console.log("Loading settings")
   if (!localStorage.tmt) return
   tmt = JSON.parse(localStorage.tmt)
   if (!tmt.settings) {
@@ -41,11 +41,10 @@ function loadSettings() {
   if (tmt.settings.bg_img) document.body.style.backgroundImage = `url(${tmt.settings.bg_img})`
   if (tmt.settings.bg_clr) document.body.style.backgroundColor = tmt.settings.bg_clr
   if (tmt.settings.txt_clr) document.body.style.color = tmt.settings.txt_clr
-
+  Settings = tmt.settings
 }
 
 //Loading vars
-window.addEventListener("error", handleError, true);
 AppName = "TMT / version: " + VERSION
 if (VERSION.search("dev")) AppName = "Taha's Mood Tracker / " + VERSION 
 
@@ -59,3 +58,6 @@ if (navbar) {
     //navbar.style["color"] = "red"
 }
 loadSettings()
+try {
+  if (Settings && Settings.alert_errors === true) window.addEventListener("error", handleError, true);
+} catch(err) {console.log(err)}
