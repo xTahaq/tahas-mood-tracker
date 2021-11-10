@@ -1,5 +1,7 @@
-//const resetdata = document.getElementById("RESET_DATA")
+let showingUpdates = false
+//
 const dataInput = document.getElementById("dataInput")
+const pnTxt = document.getElementById("patchNotesText")
 
 function refresh() {
     window.location.reload()
@@ -59,6 +61,25 @@ function checkUpdate() {
                 outp.innerText = `Update status: ${VERSION} is not outdated, you are up-to-date!`
             }
         }).catch(err => alert(err))
+}
+
+function viewLastUpdates() {
+    if (showingUpdates === true) {
+        pnTxt.innerText = ""
+        showingUpdates = false
+    } else {
+        fetch("https://raw.githubusercontent.com/xTahaq/tahas-mood-tracker/master/appinfo.json").then(res => res.json()).then(versionJson => {
+            textToShow = ""
+            Object.keys(versionJson.lastestPatchNotes).forEach(release => {
+                textToShow = `${textToShow} Update ${release} Patch Notes:\n`
+                versionJson.lastestPatchNotes[release].forEach(line => {
+                    textToShow = textToShow + line + "\n"
+                })
+            })
+            pnTxt.innerText = textToShow
+            showingUpdates = true
+        }).catch(err => alert(err))
+    }
 }
 
 function changeSetting(setting, arg) {
