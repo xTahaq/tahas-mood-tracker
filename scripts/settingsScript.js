@@ -68,7 +68,7 @@ function viewLastUpdates() {
         pnTxt.innerText = ""
         showingUpdates = false
     } else {
-        fetch("https://raw.githubusercontent.com/xTahaq/tahas-mood-tracker/master/appinfo.json").then(res => res.json()).then(versionJson => {
+        fetch("https://gist.githubusercontent.com/xTahaq/90f1ff22989e6d579605a21e26fc0e2d/raw").then(res => res.json()).then(versionJson => {
             textToShow = "Click the button again to hide this.\nTo see all versions, go to https://github.com/xTahaq/tahas-mood-tracker/releases\n\n"
             Object.keys(versionJson.lastestPatchNotes).forEach(release => {
                 textToShow = `${textToShow} Update ${release} Patch Notes:\n`
