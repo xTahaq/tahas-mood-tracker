@@ -1,18 +1,15 @@
 {
-    "version": "v2.0.2",
+    "version": "v2.1.0",
     "lastestPatchNotes": {
+        "v2.1.0": [
+            "- Added random quote generator at statistics page.",
+            "- Putted 'check diary' button at statistics page higher so it can be recognized. Before it was hard to see."
+        ],
         "v2.0.2": [
             "- Added lastestPatchNotes to appinfo.json. Last 3 releases can be viewed in options page."
         ],
         "v2.0.1": [
             "- All of javascript folders are now in /scripts file"
-        ],
-        "v2.0.0": [
-            "First official release of Taha's Mood Tracker in JavaScript, more details https://github.com/xTahaq/tahas-mood-tracker/releases/tag/v2.0.0",
-            "- You can now track mood & stress index of last 30 days, using a graph.",
-            "- Added an option to disable error notifications (alerts) in settings page.",
-            "- \"Version checker\" in settings page now works.",
-            "- Fixed background color input (in settings page) showing wrong color if it's default, and throwing warning."
         ]
     }
 }

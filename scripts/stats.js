@@ -67,8 +67,16 @@ function loadLastMonthData() {
     console.log(lastmonthdata_mood, lastmonthdata_stress)
 }
 
+function fetchAQuote() {
+    fetch("https://gist.githubusercontent.com/b1nary/ea8fff806095bcedacce/raw/6e6de20d7514b93dd69b149289264997b49459dd/enterpreneur-quotes.json").then(res => res.json()).then(quotes => {
+        quote = quotes[Math.floor(Math.random() * quotes.length)]
+        document.getElementById("randomQuote").innerText = quote.text + " - " + quote.from
+    }).catch(err => err) //ignore error
+}
+
 loadTodaysStats()
 loadLastMonthData()
+fetchAQuote()
 
 window.onload = function () {
     try {CanvasJS} catch(err) {return alert("Cannot find CanvasJS! Please check your internet connection, need internet connection to make a graph.")}
@@ -114,4 +122,5 @@ window.onload = function () {
         }]
     });
     chart.render();
+
 }
