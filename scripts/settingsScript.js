@@ -53,7 +53,7 @@ function createSettings() {
 function checkUpdate() {
     outp = document.getElementById("versionOutput")
     outp.innerText = `Update status: Checking...`
-    fetch("https://gist.githubusercontent.com/xTahaq/90f1ff22989e6d579605a21e26fc0e2d/raw/e2d72c84d8dd4f69878bada7920a3ec72332a1dc/tmt-appinfo.json").then(res => res.json()).then(versionJson => {
+    fetch("https://gist.githubusercontent.com/xTahaq/90f1ff22989e6d579605a21e26fc0e2d/raw").then(res => res.json()).then(versionJson => {
             outp = document.getElementById("versionOutput")
             if (versionJson.version != VERSION) {
                 outp.innerText = `Update status: New version available! (${VERSION} => ${versionJson.version}) Please update it at https://github.com/xTahaq/tahas-mood-tracker`
