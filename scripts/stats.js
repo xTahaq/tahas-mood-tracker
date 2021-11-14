@@ -4,6 +4,7 @@ month = date.getMonth() + 1
 
 lastmonthdata_mood = []
 lastmonthdata_stress = []
+activitySummary = [] // {"name": name, "amount": amount}
 
 function loadTodaysStats() {
     if (!localStorage.tmt) return alert("No data found. Please head to main page first. If this still persists this might be a bug.")
@@ -25,46 +26,59 @@ function loadLastMonthData() {
     Object.keys(tmt.data[month - 1]).forEach((d, i) => {
         ri = (i + 1).toString()
         if (ri > day) {
+            activity = tmt.data[month - 1][d].activities ? tmt.data[month - 1][d].activities : []
             mood = tmt.data[month - 1][d].mood
-            //if (!mood) mood = null
-            lastmonthdata_mood.push({
-                label: ri, y: mood ? Number(mood) : null
-            })
-        }
-    })
-    Object.keys(tmt.data[month]).forEach((d, i) => {
-        ri = (i + 1).toString()
-        if (ri <= day) {
-            mood = tmt.data[month][d].mood
-            //if (!mood) mood = null
-            lastmonthdata_mood.push({
-                label: ri, y: mood ? Number(mood) : null
-            })
-        }
-    })
-
-
-    Object.keys(tmt.data[month - 1]).forEach((d, i) => {
-        ri = (i + 1).toString()
-        if (ri > day) {
             stress = tmt.data[month - 1][d].stress
             //if (!mood) mood = null
+            lastmonthdata_mood.push({
+                label: ri, y: mood ? Number(mood) : null
+            })
             lastmonthdata_stress.push({
                 label: ri, y: stress ? Number(stress) : null
+            })
+
+            activity.forEach(a => {
+                act = activitySummary.find(obj => obj.name === a)
+                if (act) {
+                    act.amount = act.amount + 1
+                } else {
+                    activitySummary.push({
+                        name: a,
+                        amount: 1
+                    })
+                }
             })
         }
     })
     Object.keys(tmt.data[month]).forEach((d, i) => {
         ri = (i + 1).toString()
         if (ri <= day) {
+            activity = tmt.data[month][d].activities ? tmt.data[month][d].activities : []
+            mood = tmt.data[month][d].mood
             stress = tmt.data[month][d].stress
             //if (!mood) mood = null
+            lastmonthdata_mood.push({
+                label: ri, y: mood ? Number(mood) : null
+            })
             lastmonthdata_stress.push({
                 label: ri, y: stress ? Number(stress) : null
             })
+
+            activity.forEach(a => {
+                activity = tmt.data[month - 1][d].activities ? tmt.data[month - 1][d].activities : []
+                act = activitySummary.find(obj => obj.name === a)
+                if (act) {
+                    act.amount = act.amount + 1
+                } else {
+                    activitySummary.push({
+                        name: a,
+                        amount: 1
+                    })
+                }
+            })
         }
     })
-    console.log(lastmonthdata_mood, lastmonthdata_stress)
+    console.log(lastmonthdata_mood, lastmonthdata_stress, activitySummary)
 }
 
 function fetchAQuote() {
@@ -72,6 +86,15 @@ function fetchAQuote() {
         quote = quotes[Math.floor(Math.random() * quotes.length)]
         document.getElementById("randomQuote").innerText = quote.text + " - " + quote.from
     }).catch(err => err) //ignore error
+}
+
+function exportActivityData() {
+    activityDiv = document.getElementById("lastmonthactivity")
+    activitySummary.forEach(ac => {
+        el = document.createElement("p")
+        el.innerText = ac.name + ": " + ac.amount + " times"
+        activityDiv.appendChild(el)
+    })
 }
 
 loadTodaysStats()
@@ -122,5 +145,6 @@ window.onload = function () {
         }]
     });
     chart.render();
+    exportActivityData()
 
 }

@@ -1,5 +1,5 @@
 // Do NOT touch any variables or anything here
-VERSION = "v2.1.0"
+VERSION = "v2.3.0"
 Settings = null
 // pre-loaded objects
 
