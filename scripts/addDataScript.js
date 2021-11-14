@@ -42,6 +42,7 @@ function activityEntered() {
     entered = activityObj.value.trim()
     console.log(entered)
     if (entered === "") return
+    entered = entered.toLowerCase()
     if (activities.find(e => e === entered)) return
     if (activities.length >= 20) return
     if (entered.length > 256) return

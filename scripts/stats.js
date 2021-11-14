@@ -13,7 +13,7 @@ function loadTodaysStats() {
     today = tmt.data[month][day]
     if (today.mood) document.getElementById("todaymood").innerText = today.mood
     if (today.stress) document.getElementById("todaystress").innerText = today.stress
-    if (today.activities) document.getElementById("todayactivities").innerText = today.activities.toString()
+    if (today.activities) document.getElementById("todayactivities").innerText = today.activities.join(", ")
     if (today.diary) document.getElementById("todaydiary").innerText = today.diary
 }
 
@@ -38,6 +38,7 @@ function loadLastMonthData() {
             })
 
             activity.forEach(a => {
+                a = a.toLowerCase()
                 act = activitySummary.find(obj => obj.name === a)
                 if (act) {
                     act.amount = act.amount + 1
@@ -65,6 +66,7 @@ function loadLastMonthData() {
             })
 
             activity.forEach(a => {
+                a = a.toLowerCase()
                 activity = tmt.data[month - 1][d].activities ? tmt.data[month - 1][d].activities : []
                 act = activitySummary.find(obj => obj.name === a)
                 if (act) {
