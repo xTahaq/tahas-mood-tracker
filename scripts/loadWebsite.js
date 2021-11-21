@@ -5,7 +5,7 @@ Settings = null
 
 OBJ_NAVBAR = `<header>
 <nav id="navbar">
-    <h1 id="navtitle" style="color: black;">Taha's Mood Tracker <span class="smaller-font">(version: ${VERSION})</span></h1>
+    <h1 id="navtitle">Taha's Mood Tracker <span class="smaller-font">(version: ${VERSION})</span></h1>
     <ul>
       <li><a name="navbarlocate" href="main.html">Main Page</a></li>
       <li><a name="navbarlocate" href="addData.html">Enter Data</a></li>
@@ -50,6 +50,8 @@ function loadSettings() {
   if (tmt.settings.bg_clr) themeVars.style.setProperty("--main-background-color", tmt.settings.bg_clr)
   if (tmt.settings.txt_clr) themeVars.style.setProperty("--main-text-color", tmt.settings.txt_clr)
   if (tmt.settings.bg_img) themeVars.style.setProperty("--main-background-image", `url(${tmt.settings.bg_img}`)
+  if (tmt.settings.nb_bg_clr) themeVars.style.setProperty("--navbar-background-color", tmt.settings.nb_bg_clr)
+  if (tmt.settings.nb_txt_clr) themeVars.style.setProperty("--navbar-text-color", tmt.settings.nb_txt_clr)
   Settings = tmt.settings
 }
 
@@ -62,10 +64,6 @@ if (VERSION.search("dev")) AppName = "Taha's Mood Tracker / " + VERSION
 document.title = `${AppName} - ${document.title}`
 document.getElementById("navbar-div").innerHTML = OBJ_NAVBAR
 navbar = document.getElementById("navbar")
-if (navbar) {
-    navbar.style["background-color"] = "powderblue"
-    //navbar.style["color"] = "red"
-}
 loadSettings()
 try {
   if (Settings && Settings.alert_errors === true) window.addEventListener("error", handleError, true);

@@ -116,6 +116,24 @@ function changeSetting(setting, arg) {
         } else {
             tmt.settings.txt_clr = ""
         }
+    } else if (setting === "nb_bg_clr") {
+        if (arg === "input") {
+            inp = document.getElementById("input_nb_bg_clr")
+            if (inp) {
+                tmt.settings.nb_bg_clr = inp.value
+            }
+        } else {
+            tmt.settings.nb_bg_clr = ""
+        }
+    } else if (setting === "nb_txt_clr") {
+        if (arg === "input") {
+            inp = document.getElementById("input_nb_txt_clr")
+            if (inp) {
+                tmt.settings.nb_txt_clr = inp.value
+            }
+        } else {
+            tmt.settings.nb_txt_clr = ""
+        }
     } else if (setting === "alert_errors") {
         if (arg === "true") {
             tmt.settings.alert_errors = true
@@ -133,6 +151,8 @@ if (localStorage.tmt) {
         document.getElementById("input_bg_img").value = tmt.settings.bg_img
         document.getElementById("input_bg_clr").value = tmt.settings.bg_clr || "#FFFFFF"
         document.getElementById("input_txt_clr").value = tmt.settings.txt_clr || "#000000"
+        document.getElementById("input_nb_bg_clr").value = tmt.settings.nb_bg_clr || "#b0e0e6"
+        document.getElementById("input_nb_txt_clr").value = tmt.settings.nb_txt_clr || "#000000"
         document.getElementById("alerterrinf").innerText = `(current: ${tmt.settings.alert_errors})`
     }
 }

@@ -2,7 +2,7 @@
     --main-background-color: #ffffff;
     --main-text-color: #000000;
     --main-background-image: url();
-    --navbar-background-color: rgb(176, 224, 230);
+    --navbar-background-color: #b0e0e6;
     --navbar-text-color: #000000;
 }
 
@@ -38,6 +38,8 @@ a {
     justify-content: space-between;
     padding: 0 0.75rem;
     height: 70px;
+    background-color: var(--navbar-background-color);
+    color: var(--navbar-text-color);
 }
 
 #navbar ul {
@@ -48,6 +50,7 @@ a {
 
 #navbar ul li a {
     padding: 1rem;
+    color: var(--navbar-text-color);
 }
 
 #navbar ul li a:hover {
