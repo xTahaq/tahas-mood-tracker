@@ -1,3 +1,11 @@
+:root {
+    --main-background-color: #ffffff;
+    --main-text-color: #000000;
+    --main-background-image: url();
+    --navbar-background-color: rgb(176, 224, 230);
+    --navbar-text-color: #000000;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,10 +18,12 @@ html {
 }
 
 body {
-    /*background-image: url(https://img.youtube.com/vi/xz-ahjSNf6o/hqdefault.jpg);*/
+    background-image: var(--main-background-image);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    color: var(--main-text-color);
+    background-color: var(--main-background-color);
     min-height: 100%;
 }
 

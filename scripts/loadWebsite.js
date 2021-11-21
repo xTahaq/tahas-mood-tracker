@@ -20,9 +20,12 @@ SETTINGS_OBJECT = {
   bg_img: "",
   bg_clr: "",
   txt_clr: "",
+  nb_bg_clr: "",
+  nb_txt_clr: "",
   alert_errors: true
 }
 
+themeVars = document.querySelector(":root")
 //Funcs
 function handleError(evt) {
   if (evt.message) { // Chrome sometimes provides this
@@ -37,10 +40,16 @@ function loadSettings() {
   tmt = JSON.parse(localStorage.tmt)
   if (!tmt.settings) {
     tmt.settings = SETTINGS_OBJECT
+    localStorage.tmt = JSON.stringify(tmt)
   }
+  /*
   if (tmt.settings.bg_img) document.body.style.backgroundImage = `url(${tmt.settings.bg_img})`
   if (tmt.settings.bg_clr) document.body.style.backgroundColor = tmt.settings.bg_clr
   if (tmt.settings.txt_clr) document.body.style.color = tmt.settings.txt_clr
+  */
+  if (tmt.settings.bg_clr) themeVars.style.setProperty("--main-background-color", tmt.settings.bg_clr)
+  if (tmt.settings.txt_clr) themeVars.style.setProperty("--main-text-color", tmt.settings.txt_clr)
+  if (tmt.settings.bg_img) themeVars.style.setProperty("--main-background-image", `url(${tmt.settings.bg_img}`)
   Settings = tmt.settings
 }
 
