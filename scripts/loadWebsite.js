@@ -22,6 +22,7 @@ SETTINGS_OBJECT = {
   txt_clr: "",
   nb_bg_clr: "",
   nb_txt_clr: "",
+  link_clr: "",
   alert_errors: true
 }
 
@@ -52,6 +53,7 @@ function loadSettings() {
   if (tmt.settings.bg_img) themeVars.style.setProperty("--main-background-image", `url(${tmt.settings.bg_img}`)
   if (tmt.settings.nb_bg_clr) themeVars.style.setProperty("--navbar-background-color", tmt.settings.nb_bg_clr)
   if (tmt.settings.nb_txt_clr) themeVars.style.setProperty("--navbar-text-color", tmt.settings.nb_txt_clr)
+  if (tmt.settings.link_clr) themeVars.style.setProperty("--link-color", tmt.settings.link_clr)
   Settings = tmt.settings
 }
 

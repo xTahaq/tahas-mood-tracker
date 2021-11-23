@@ -4,6 +4,7 @@
     --main-background-image: url();
     --navbar-background-color: #b0e0e6;
     --navbar-text-color: #000000;
+    --link-color: #892be2;
 }
 
 * {
@@ -29,7 +30,6 @@ body {
 
 a {
     text-decoration: none;
-    color: black;
 }
 
 #navbar {
@@ -93,7 +93,7 @@ textarea {
     border-radius: 5px;
 }
 .link-color {
-    color: blueviolet;
+    color: var(--link-color);
     text-decoration:underline;
 }
 
