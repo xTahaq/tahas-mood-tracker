@@ -15,7 +15,7 @@ You can see a graph about your past and view your diary later!
 
 ### Customize your app in settings and take backups!
 
-Change things like background color, image and text color.
+Change things like background, text color and much more customizable appearance.
 
 In case you clear your browser history, update the app etc. you can take backups in settings page (strongly recommended).
 
