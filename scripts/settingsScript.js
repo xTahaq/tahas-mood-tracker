@@ -55,10 +55,14 @@ function checkUpdate() {
     outp.innerText = `Update status: Checking...`
     fetch("https://gist.githubusercontent.com/xTahaq/90f1ff22989e6d579605a21e26fc0e2d/raw").then(res => res.json()).then(versionJson => {
             outp = document.getElementById("versionOutput")
-            if (versionJson.version != VERSION) {
+            if (versionJson.version != VERSION && versionJson.prerelease != VERSION) {
                 outp.innerText = `Update status: New version available! (${VERSION} => ${versionJson.version}) Please update it at https://github.com/xTahaq/tahas-mood-tracker`
             } else {
-                outp.innerText = `Update status: ${VERSION} is not outdated, you are up-to-date!`
+                if (versionJson.version === VERSION && versionJson.prerelease != VERSION && versionJson.prerelease != "") {
+                    outp.innerText = `Update status: ${VERSION} is not outdated, but there's a pre-release available! (${VERSION} => ${versionJson.version}) You can update it at https://github.com/xTahaq/tahas-mood-tracker`
+                } else {
+                    outp.innerText = `Update status: ${VERSION} is not outdated, you are up-to-date!`
+                }
             }
         }).catch(err => alert(err))
 }
