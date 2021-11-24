@@ -5,6 +5,8 @@
     --navbar-background-color: #b0e0e6;
     --navbar-text-color: #000000;
     --link-color: #892be2;
+    --button-color: #c4c4c4;
+    --button-text-color: #000000;
 }
 
 * {
@@ -76,6 +78,18 @@ p {
     padding: 12px;
     margin: 12px;
 }
+button {
+    border-width: 2px;
+    border-color: var(--button-color);
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+}
+button:hover {
+    opacity: 0.5;
+}
+button:active {
+    opacity: 0.25;
+}
 
 textarea {
     resize: none;
@@ -95,14 +109,6 @@ textarea {
 .link-color {
     color: var(--link-color);
     text-decoration:underline;
-}
-
-button:hover {
-    background-color: powderblue;
-}
-
-button:active {
-    background-color: red;
 }
 
 #output {
