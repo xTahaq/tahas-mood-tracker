@@ -5,6 +5,10 @@
     --navbar-background-color: #b0e0e6;
     --navbar-text-color: #000000;
     --link-color: #892be2;
+    --button-color: #ebebeb;
+    --button-text-color: #000000;
+    --inp-color: #ffffff;
+    --inp-text-color: #000000;
 }
 
 * {
@@ -76,10 +80,30 @@ p {
     padding: 12px;
     margin: 12px;
 }
+button {
+    border-width: 2px;
+    border-color: var(--button-color);
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+}
+button:hover {
+    opacity: 0.5;
+}
+button:active {
+    opacity: 0.25;
+}
 
+input, textarea {
+    background-color: var(--inp-color);
+    color: var(--inp-text-color);
+}
+input::placeholder {
+    color: var(--inp-text-color);
+}
 textarea {
     resize: none;
 }
+
 .bigger-button {
     height: 5rem;
     width: 12rem;
@@ -95,14 +119,6 @@ textarea {
 .link-color {
     color: var(--link-color);
     text-decoration:underline;
-}
-
-button:hover {
-    background-color: powderblue;
-}
-
-button:active {
-    background-color: red;
 }
 
 #output {

@@ -12,23 +12,37 @@
     <div class="div-normal">
       <h2>Appearance & Theme Settings</h2><br>
       <div class="div-normal">
-        <h3>Main Appearance</h3> 
         <div class="div-normal">
+          <h3>Main Appearance</h3><br>
           <label>Background Image:  </label><input type="text" placeholder="Type a photo url here" id="input_bg_img"></input> <button onclick="changeSetting('bg_img', 'input')">Save</button> <button onclick="changeSetting('bg_img', 'reset')">Remove Background</button><br>
           <label>Background Color:  </label><input type="color" id="input_bg_clr"></input> <button onclick="changeSetting('bg_clr', 'input')">Save</button> <button onclick="changeSetting('bg_clr', 'reset')">Reset to Default</button><br>
           <label>Text Color:  </label><input type="color" id="input_txt_clr"></input> <button onclick="changeSetting('txt_clr', 'input')">Save</button> <button onclick="changeSetting('txt_clr', 'reset')">Reset to Default</button><br>
           <label>Link Text Color:  </label><input type="color" id="input_link_clr"></input> <button onclick="changeSetting('link_clr', 'input')">Save</button> <button onclick="changeSetting('link_clr', 'reset')">Reset to Default</button><br>
-        </div>
-        <h3>Navigation Bar</h3>
+        </div><br>
+        
         <div class="div-normal">
+          <h3>Navigation Bar</h3><br>
           <label>Background Color:  </label><input type="color" id="input_nb_bg_clr"></input> <button onclick="changeSetting('nb_bg_clr', 'input')">Save</button> <button onclick="changeSetting('nb_bg_clr', 'reset')">Reset to Default</button><br>
           <label>Text Color:  </label><input type="color" id="input_nb_txt_clr"></input> <button onclick="changeSetting('nb_txt_clr', 'input')">Save</button> <button onclick="changeSetting('nb_txt_clr', 'reset')">Reset to Default</button>
-        </div>
+        </div><br>
+        
+        <div class="div-normal">
+          <h3>Button Appearance</h3><br>
+          <label>Button Color:  </label><input type="color" id="input_btt_bg_clr"></input> <button onclick="changeSetting('btt_bg_clr', 'input')">Save</button> <button onclick="changeSetting('btt_bg_clr', 'reset')">Reset to Default</button><br>
+          <label>Button Text Color:  </label><input type="color" id="input_btt_txt_clr"></input> <button onclick="changeSetting('btt_txt_clr', 'input')">Save</button> <button onclick="changeSetting('btt_txt_clr', 'reset')">Reset to Default</button>
+        </div><br>
+
+        <div class="div-normal">
+          <h3>Input Box Appearance</h3><br>
+          <label>Background Color:  </label><input type="color" id="input_inp_bg_clr"></input> <button onclick="changeSetting('inp_bg_clr', 'input')">Save</button> <button onclick="changeSetting('tb_bg_clr', 'reset')">Reset to Default</button><br>
+          <label>Text Color:  </label><input type="color" id="input_inp_txt_clr"></input> <button onclick="changeSetting('inp_txt_clr', 'input')">Save</button> <button onclick="changeSetting('inp_txt_clr', 'reset')">Reset to Default</button>
+        </div><br>
+
       </div>
-      <h2>General Settings</h2>
       <div class="div-normal">
+        <h2>General Settings</h2><br>
         <label>Error notifications:  </label> <button onclick="changeSetting('alert_errors', 'true')">True</button> <button onclick="changeSetting('alert_errors', 'false')">False</button> <label id="alerterrinf">(current: unknown)</label>
-      </div>
+      </div><br>
     </div>
     <div class="div-normal">
       <h2>Reset Settings</h2>

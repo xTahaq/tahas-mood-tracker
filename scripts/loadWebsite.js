@@ -1,5 +1,5 @@
 // Do NOT touch any variables or anything here
-VERSION = "v2.5.0-pre1"
+VERSION = "v2.5.0"
 Settings = null
 // pre-loaded objects
 
@@ -23,6 +23,10 @@ SETTINGS_OBJECT = {
   nb_bg_clr: "",
   nb_txt_clr: "",
   link_clr: "",
+  btt_bg_clr: "",
+  btt_txt_clr: "",
+  inp_bg_clr: "",
+  inp_txt_clr: "",
   alert_errors: true
 }
 
@@ -54,6 +58,10 @@ function loadSettings() {
   if (tmt.settings.nb_bg_clr) themeVars.style.setProperty("--navbar-background-color", tmt.settings.nb_bg_clr)
   if (tmt.settings.nb_txt_clr) themeVars.style.setProperty("--navbar-text-color", tmt.settings.nb_txt_clr)
   if (tmt.settings.link_clr) themeVars.style.setProperty("--link-color", tmt.settings.link_clr)
+  if (tmt.settings.btt_bg_clr) themeVars.style.setProperty("--button-color", tmt.settings.btt_bg_clr)
+  if (tmt.settings.btt_txt_clr) themeVars.style.setProperty("--button-text-color", tmt.settings.btt_txt_clr)
+  if (tmt.settings.inp_bg_clr) themeVars.style.setProperty("--inp-color", tmt.settings.inp_bg_clr)
+  if (tmt.settings.inp_txt_clr) themeVars.style.setProperty("--inp-text-color", tmt.settings.inp_txt_clr)
   Settings = tmt.settings
 }
 
