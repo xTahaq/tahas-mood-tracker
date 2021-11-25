@@ -5,8 +5,10 @@
     --navbar-background-color: #b0e0e6;
     --navbar-text-color: #000000;
     --link-color: #892be2;
-    --button-color: #c4c4c4;
+    --button-color: #ebebeb;
     --button-text-color: #000000;
+    --inp-color: #ffffff;
+    --inp-text-color: #000000;
 }
 
 * {
@@ -91,9 +93,17 @@ button:active {
     opacity: 0.25;
 }
 
+input, textarea {
+    background-color: var(--inp-color);
+    color: var(--inp-text-color);
+}
+input::placeholder {
+    color: var(--inp-text-color);
+}
 textarea {
     resize: none;
 }
+
 .bigger-button {
     height: 5rem;
     width: 12rem;
