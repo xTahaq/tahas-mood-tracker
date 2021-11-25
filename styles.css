@@ -97,7 +97,7 @@ input, textarea {
     background-color: var(--inp-color);
     color: var(--inp-text-color);
 }
-input::placeholder {
+input::placeholder, textarea::placeholder {
     color: var(--inp-text-color);
 }
 textarea {
